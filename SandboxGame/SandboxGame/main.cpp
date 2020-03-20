@@ -4,15 +4,17 @@
 #include "pch.h"
 #include <iostream>
 #include <QtWidgets/qapplication.h>
+#include "GLWindow.h"
 
 
 int main(int argc, char* argv[])
 {
     std::cout << "Starting QT\n";
 	QApplication application(argc, argv);
-	std::cout << "Finished creation";
+	//QWidget myWidget;
+	//myWidget.show();
+	GLWindow myWindow;
+	myWindow.show();
+
 	return application.exec();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
