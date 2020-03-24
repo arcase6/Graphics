@@ -1,9 +1,13 @@
 // OpenGLScratchPad.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include "pch.h"
 #include <iostream>
-#include <GLFW/glfw3.h>
+
+//open gl extension library headers must be included BEFORE glfw. This is because they need to replace the platform headers to expose extension and core functions.
+#include <glew.h>
+#include <GLFW/glfw3.h> // this is including the opengl32.h header file within in a platform independent way
+#include <CustomRenderer.h>
+
 
 int main(void)
 {
@@ -23,12 +27,21 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		/* Problem: glewInit failed, something is seriously wrong. */
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+	}
+	
+	CustomRenderer myRenderer;
 
+	myRenderer.Initialize();
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		myRenderer.RenderFrame();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
