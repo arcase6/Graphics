@@ -5,26 +5,20 @@
 
 GLfloat verts[] =
 {
-	+0.0f, 0.0f, //position
+	+0.0f, 1.0f, //position
 	1.0f,0.0f,0.0f, //color
 
-	+1.0f,1.0f,
-	1.0f,0.0f,0.0f,
-
-	-1.0f,1.0f,
-	1.0f,0.0f,0.0f,
+	1.0f, -1.0f,
+	0.0f,1.0f,0.0f,
 
 	-1.0f,-1.0f,
-	1.0f,0.0f,0.0f,
-
-	+1.0f,-1.0f,
-	1.0f,0.0f,0.0f,
+	0.0f,0.0f,1.0f,
 };
 
 GLushort indices[] =
 {
-	3,1,2, //triangle 1
-	0,3,4 //triangle 2
+	0,2,1, //triangle 1
+	//0,3,4 //triangle 2
 };
 
 void CustomRenderer::Initialize()
@@ -72,5 +66,5 @@ void CustomRenderer::RenderFrame()
 
 	//draw 6 triangles, with indices from the element array buffer
 	//the indices are unsigned shorts. the offset into the index array is 0
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
 }
