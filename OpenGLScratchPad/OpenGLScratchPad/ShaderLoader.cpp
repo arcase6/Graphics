@@ -6,19 +6,25 @@ const char* vertexShaderCode =
 "#version 430\r\n"
 ""
 "in layout(location=0) vec2 position;"
+"in layout(location=1) vec3 vertexColor;"
+""
+"out vec3 theColor;"
 ""
 "void main(){"
 "	gl_Position = vec4(position,0.0,1.0);"
+"	theColor = vertexColor;"
 "}"
 ;
 
 const char* fragmentShaderCode =
 "#version 430\r\n"
 ""
+"in vec3 theColor;"
+""
 "out vec4 daColor;"
 ""
 "void main(){"
-"	daColor = vec4(0.0,1.0,0.0,1.0);"
+"	daColor = vec4(theColor,1.0);"
 "}"
 ;
 
@@ -42,7 +48,7 @@ const GLuint& ShaderLoader::LinkShaderIntoProgram(const GLuint& vertexShader, co
 	glGetProgramiv(programID, GL_LINK_STATUS, &result);
 	glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-	if (infoLogLength > 0) {
+	if (!result && infoLogLength > 0) {
 		std::vector<char> programErrorMessage(infoLogLength + 1);
 		glGetProgramInfoLog(programID, infoLogLength, 0, &programErrorMessage[0]);
 		printf("%s\n", &programErrorMessage[0]);
@@ -81,7 +87,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderCodeRaw)
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compileResult);
 	glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-	if (!compileResult || !infoLogLength) {
+	if (!compileResult && !infoLogLength) {
 		std::vector<char> shaderErrorMessage(infoLogLength + 1);
 		glGetShaderInfoLog(shaderID, infoLogLength, 0, &shaderErrorMessage[0]);
 		printf("%s\n", &shaderErrorMessage[0]);
