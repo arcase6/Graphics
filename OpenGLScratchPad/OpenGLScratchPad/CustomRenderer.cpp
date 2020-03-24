@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <CustomRenderer.h>
 #include <glew.h>
+#include <ShaderLoader.h>
 
 GLfloat verts[] =
 {
@@ -30,6 +31,10 @@ void CustomRenderer::Initialize()
 {
 	PassVertexData();
 	PassIndicesData();
+
+	ShaderLoader loader;
+	GLuint programID = loader.GenerateProgramUsingShaders();
+	glUseProgram(programID);
 }
 
 void CustomRenderer::PassVertexData()
