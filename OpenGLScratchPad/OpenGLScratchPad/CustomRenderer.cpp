@@ -6,7 +6,11 @@ void CustomRenderer::Initialize()
 {
 	GLfloat verts[] = 
 	{
-		+0.0f, 1.0f,
+		+0.0f, 0.0f,
+		+1.0f,1.0f,
+		-1.0f,1.0f,
+
+		+0.0f, +0.0f,
 		-1.0f,-1.0f,
 		+1.0f,-1.0f,
 	};
@@ -29,5 +33,5 @@ void CustomRenderer::Initialize()
 void CustomRenderer::RenderFrame()
 {
 	//glViewport(0, 0,);
-	glDrawArrays(GL_TRIANGLES,0,3);
+	glDrawArrays(GL_TRIANGLES,0,6);
 }
