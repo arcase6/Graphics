@@ -8,25 +8,27 @@
 
 #define TRIANGLE_COUNT 2
 
+
+#define RAINBOW_TRIANGLE_Z 0.0f
+#define RED_TRIANGLE_Z 0.5f
 GLfloat verts[] =
 {
-	+0.0f, 1.0f,-0.5f, //position
+	+0.0f, 1.0f, RAINBOW_TRIANGLE_Z, //position
 	1.0f,0.0f,0.0f, //color
 
-	1.0f, -1.0f,-0.5f,
+	1.0f, -1.0f,RAINBOW_TRIANGLE_Z,
 	0.0f,1.0f,0.0f,
 
-	-1.0f,-1.0f,-0.5f,
+	-1.0f,-1.0f,RAINBOW_TRIANGLE_Z,
 	0.0f,0.0f,1.0f,
 
-
-	+0.0f, -1.0f,0.0f, //position
+	+0.0f, -1.0f,RED_TRIANGLE_Z, //position
 	1.0f,0.0f,0.0f, //color
 
-	1.0f, 1.0f, 0.0f,
+	1.0f, 1.0f, RED_TRIANGLE_Z,
 	1.0f,0.0f,0.0f,
 
-	-1.0f,1.0f, 0.0f,
+	-1.0f,1.0f, RED_TRIANGLE_Z,
 	1.0f,0.0f,0.0f,
 };
 
@@ -38,9 +40,15 @@ GLushort indices[] =
 
 void CustomRenderer::Initialize()
 {
+	glEnable(GL_DEPTH_TEST);
 	PassVertexData();
 	PassIndicesData();
 
+	InitializeShaders();
+}
+
+void CustomRenderer::InitializeShaders()
+{
 	ShaderLoader loader;
 	GLuint programID = loader.GenerateProgramUsingShaders();
 	glUseProgram(programID);
@@ -78,8 +86,8 @@ void CustomRenderer::GenerateAndBindBuffer(GLenum targetBuffer)
 
 void CustomRenderer::RenderFrame()
 {
-	//glViewport(0, 0,);
-	//glDrawArrays(GL_TRIANGLES,0,6);
+
+	glClear(GL_DEPTH_BUFFER_BIT);
 
 	int pointCount = 3 * TRIANGLE_COUNT;
 

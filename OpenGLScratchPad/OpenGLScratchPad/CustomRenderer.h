@@ -6,6 +6,7 @@ class CustomRenderer
 {
     public:
         virtual void Initialize();
+        void InitializeShaders();
         virtual void RenderFrame();
     protected:
         void PassIndicesData();
