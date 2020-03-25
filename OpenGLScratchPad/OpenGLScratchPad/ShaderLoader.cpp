@@ -1,37 +1,16 @@
 #include <pch.h>
 #include <ShaderLoader.h>
 #include <vector>
-
-const char* vertexShaderCode = 
-"#version 430\r\n"
-""
-"in layout(location=0) vec2 position;"
-"in layout(location=1) vec3 vertexColor;"
-""
-"out vec3 theColor;"
-""
-"void main(){"
-"	gl_Position = vec4(position,0.0,1.0);"
-"	theColor = vertexColor;"
-"}"
-;
-
-const char* fragmentShaderCode =
-"#version 430\r\n"
-""
-"in vec3 theColor;"
-""
-"out vec4 daColor;"
-""
-"void main(){"
-"	daColor = vec4(theColor,1.0);"
-"}"
-;
+#include <fstream>
+#include <iostream>
 
 GLuint ShaderLoader::GenerateProgramUsingShaders()
 {
-	GLuint vertexShader = CreateShader(GL_VERTEX_SHADER, LoadVertexShaderRaw());
-	GLuint fragmentShader = CreateShader(GL_FRAGMENT_SHADER, LoadFragmentShaderRaw());
+	std::string vertexString = LoadVertexShaderRaw();
+	std::string fragmentString = LoadFragmentShaderRaw();
+
+	GLuint vertexShader = CreateShader(GL_VERTEX_SHADER, vertexString.c_str());
+	GLuint fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fragmentString.c_str());
 	
 	return LinkShaderIntoProgram(vertexShader, fragmentShader);
 }
@@ -57,14 +36,25 @@ const GLuint& ShaderLoader::LinkShaderIntoProgram(const GLuint& vertexShader, co
 	return programID;
 }
 
-const char * ShaderLoader::LoadVertexShaderRaw()
+std::string ShaderLoader::LoadVertexShaderRaw()
 {
-	return vertexShaderCode;
+	return LoadFromFile("VertexShader.glsl");
 }
 
-const char * ShaderLoader::LoadFragmentShaderRaw()
+std::string ShaderLoader::LoadFragmentShaderRaw()
 {
-	return fragmentShaderCode;
+	return LoadFromFile("FragmentShader.glsl");
+}
+
+
+std::string ShaderLoader::LoadFromFile(std::string filename) {
+	std::ifstream meInput(filename);
+	if (!meInput.good()) {
+		std::cout << "The file failed to load" << std::endl;
+		exit(1);
+	}
+	return std::string(std::istreambuf_iterator<char>(meInput), std::istreambuf_iterator<char>());
+	
 }
 
 GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderCodeRaw)

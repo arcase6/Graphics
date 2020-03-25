@@ -11,4 +11,8 @@
     <ClInclude Include="CustomRenderer.h" />
     <ClInclude Include="ShaderLoader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="FragmentShader.glsl" />
+    <None Include="VertexShader.glsl" />
+  </ItemGroup>
 </Project>
