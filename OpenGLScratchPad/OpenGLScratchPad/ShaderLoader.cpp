@@ -4,6 +4,11 @@
 #include <fstream>
 #include <iostream>
 
+ShaderLoader::ShaderLoader(std::string vertShaderPath, std::string fragShaderPath):
+	vertexShaderPath(vertShaderPath), fragmentShaderPath(fragShaderPath)
+{
+}
+
 GLuint ShaderLoader::GenerateProgramUsingShaders()
 {
 	std::string vertexString = LoadVertexShaderRaw();
@@ -38,12 +43,12 @@ const GLuint& ShaderLoader::LinkShaderIntoProgram(const GLuint& vertexShader, co
 
 std::string ShaderLoader::LoadVertexShaderRaw()
 {
-	return LoadFromFile("VertexShader.glsl");
+	return LoadFromFile(vertexShaderPath);
 }
 
 std::string ShaderLoader::LoadFragmentShaderRaw()
 {
-	return LoadFromFile("FragmentShader.glsl");
+	return LoadFromFile(fragmentShaderPath);
 }
 
 

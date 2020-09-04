@@ -9,7 +9,7 @@
 #define TRIANGLE_COUNT 2
 
 
-#define RAINBOW_TRIANGLE_Z 0.0f
+#define RAINBOW_TRIANGLE_Z -0.5f
 #define RED_TRIANGLE_Z 0.5f
 GLfloat verts[] =
 {
@@ -49,9 +49,19 @@ void CustomRenderer::Initialize()
 
 void CustomRenderer::InitializeShaders()
 {
-	ShaderLoader loader;
+	ShaderLoader loader(GetVertexShaderPath(), GetFragmentShaderPath());
 	GLuint programID = loader.GenerateProgramUsingShaders();
 	glUseProgram(programID);
+}
+
+std::string CustomRenderer::GetVertexShaderPath()
+{
+	return "VertexShader.glsl";
+}
+
+std::string CustomRenderer::GetFragmentShaderPath()
+{
+	return "FragmentShader.glsl";
 }
 
 void CustomRenderer::PassVertexData()
@@ -59,13 +69,15 @@ void CustomRenderer::PassVertexData()
 	GenerateAndBindBuffer(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
 
-	int stride = POSITION_DATA_SIZE + COLOR_DATA_SIZE;
+	int stride = sizeof(GLfloat) * (POSITION_DATA_SIZE + COLOR_DATA_SIZE);
 
+	//Position Attribute
 	glEnableVertexAttribArray(0); //attribute 0 is assumed by opengl to be position
-	glVertexAttribPointer(0, POSITION_DATA_SIZE, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * stride, 0);
+	glVertexAttribPointer(0, POSITION_DATA_SIZE, GL_FLOAT, GL_FALSE, stride, 0);
 
+	//Color Attributes
 	glEnableVertexAttribArray(1); //attribute 1 is not assumed to be anything
-	glVertexAttribPointer(1, COLOR_DATA_SIZE, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * stride, (char*)(sizeof(GLfloat) * POSITION_DATA_SIZE));
+	glVertexAttribPointer(1, COLOR_DATA_SIZE, GL_FLOAT, GL_FALSE, stride, (GLbyte*)(sizeof(GLfloat) * POSITION_DATA_SIZE));
 }
 
 void CustomRenderer::PassIndicesData()
@@ -74,7 +86,7 @@ void CustomRenderer::PassIndicesData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
-void CustomRenderer::GenerateAndBindBuffer(GLenum targetBuffer)
+GLuint CustomRenderer::GenerateAndBindBuffer(GLenum targetBuffer)
 {
 	GLuint bufferID;
 
@@ -82,7 +94,10 @@ void CustomRenderer::GenerateAndBindBuffer(GLenum targetBuffer)
 	glGenBuffers(1, &bufferID);
 
 	glBindBuffer(targetBuffer, bufferID);
+	return bufferID;
 }
+
+
 
 void CustomRenderer::RenderFrame()
 {

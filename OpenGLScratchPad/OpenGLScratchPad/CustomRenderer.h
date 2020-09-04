@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glew.h>
-
+#include <string>
 class CustomRenderer
 {
     public:
@@ -9,8 +9,15 @@ class CustomRenderer
         void InitializeShaders();
         virtual void RenderFrame();
     protected:
-        void PassIndicesData();
-        void PassVertexData();
-        void GenerateAndBindBuffer(GLenum targetBuffer);
+        virtual void PassIndicesData();
+        virtual void PassVertexData();
+        virtual std::string GetVertexShaderPath();
+        virtual std::string GetFragmentShaderPath();
+        
+        GLuint GenerateAndBindBuffer(GLenum targetBuffer);
 };
 
+class DoubleTriangleRenderer : public CustomRenderer
+{
+
+};
