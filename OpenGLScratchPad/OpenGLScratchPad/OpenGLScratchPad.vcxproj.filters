@@ -5,11 +5,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CustomRenderer.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="DoubleTriangleRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="CustomRenderer.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="DoubleTriangleRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader.glsl" />

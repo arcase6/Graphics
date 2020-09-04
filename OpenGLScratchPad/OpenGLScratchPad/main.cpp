@@ -6,7 +6,7 @@
 //open gl extension library headers must be included BEFORE glfw. This is because they need to replace the platform headers to expose extension and core functions.
 #include <glew.h>
 #include <GLFW/glfw3.h> // this is including the opengl32.h header file within in a platform independent way
-#include <CustomRenderer.h>
+#include <DoubleTriangleRenderer.h>
 
 
 int main(void)
@@ -34,14 +34,14 @@ int main(void)
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 	}
 	
-	CustomRenderer myRenderer;
+	CustomRenderer * myRenderer = new DoubleTriangleRenderer();
 
-	myRenderer.Initialize();
+	myRenderer->Initialize();
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		myRenderer.RenderFrame();
+		myRenderer->RenderFrame();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
